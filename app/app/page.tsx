@@ -19,14 +19,20 @@ export default function DiscoverPage() {
     currentIndex,
     likedIssues,
     isLoading,
+    currentPage,
+    hasMore,
     setIssues,
+    addIssues,
     likeIssue,
     passIssue,
     nextIssue,
     setLoading,
+    setPage,
+    setHasMore,
   } = useIssueStore();
 
   const [showFilters, setShowFilters] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -36,27 +42,47 @@ export default function DiscoverPage() {
     }
   }, [status, user, router]);
 
-  const fetchIssues = async () => {
+  const fetchIssues = async (page = 1, append = false) => {
     if (!user) return;
 
-    setLoading(true);
+    if (append) {
+      setIsLoadingMore(true);
+    } else {
+      setLoading(true);
+    }
+
     try {
       const params = new URLSearchParams();
       if (user.languages.length > 0) {
         params.append('language', user.languages[0]); // Use first language
       }
+      params.append('page', page.toString());
 
       const response = await fetch(`/api/issues?${params.toString()}`);
       const data = await response.json();
 
       // Sort by match score
       const sortedIssues = sortIssuesByMatch(data.issues || [], user);
-      setIssues(sortedIssues);
+
+      if (append) {
+        addIssues(sortedIssues);
+      } else {
+        setIssues(sortedIssues);
+      }
+
+      setHasMore(data.hasMore ?? true);
+      setPage(page);
     } catch (error) {
       console.error('Failed to fetch issues:', error);
     } finally {
       setLoading(false);
+      setIsLoadingMore(false);
     }
+  };
+
+  const loadMoreIssues = async () => {
+    if (!hasMore || isLoadingMore) return;
+    await fetchIssues(currentPage + 1, true);
   };
 
   useEffect(() => {
@@ -64,6 +90,14 @@ export default function DiscoverPage() {
       fetchIssues();
     }
   }, [user]);
+
+  // Auto-load more issues when getting close to the end
+  useEffect(() => {
+    const remainingIssues = issues.length - currentIndex;
+    if (remainingIssues <= 10 && hasMore && !isLoadingMore && !isLoading && user) {
+      loadMoreIssues();
+    }
+  }, [currentIndex, issues.length, hasMore, isLoadingMore, isLoading, user]);
 
   const handleLike = () => {
     const currentIssue = issues[currentIndex];
@@ -166,7 +200,7 @@ export default function DiscoverPage() {
                   Check back later for more issues
                 </p>
                 <button
-                  onClick={fetchIssues}
+                  onClick={() => fetchIssues()}
                   className="py-3 px-8 rounded-full font-semibold transition-all hover:scale-105 active:scale-95"
                   style={{
                     backgroundColor: theme.colors.primary,
