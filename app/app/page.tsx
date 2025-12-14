@@ -263,48 +263,6 @@ export default function DiscoverPage() {
             </button>
           </div>
         )}
-
-        {/* Stats */}
-        <div
-          className="mt-8 rounded-2xl p-6"
-          style={{ backgroundColor: theme.colors.bgWhite }}
-        >
-          <div className="grid grid-cols-3 gap-4 text-center">
-            <div>
-              <p
-                className="text-3xl font-bold"
-                style={{ color: theme.colors.primary }}
-              >
-                {issues.length - currentIndex}
-              </p>
-              <p className="text-sm mt-1" style={{ color: theme.colors.textSecondary }}>
-                Remaining
-              </p>
-            </div>
-            <div>
-              <p
-                className="text-3xl font-bold"
-                style={{ color: theme.colors.success }}
-              >
-                {likedIssues.length}
-              </p>
-              <p className="text-sm mt-1" style={{ color: theme.colors.textSecondary }}>
-                Matches
-              </p>
-            </div>
-            <div>
-              <p
-                className="text-3xl font-bold"
-                style={{ color: theme.colors.textPrimary }}
-              >
-                {currentIndex}
-              </p>
-              <p className="text-sm mt-1" style={{ color: theme.colors.textSecondary }}>
-                Reviewed
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

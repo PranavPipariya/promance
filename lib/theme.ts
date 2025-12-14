@@ -9,21 +9,21 @@ export const theme = {
     // Secondary colors
     secondary: '#FFE17B',
     accent: '#FF6B6B',
-    success: '#4ECDC4',
+    success: '#00D39F',
 
-    // Backgrounds
-    bgLight: '#FFFBF0',
+    // Backgrounds - clean and bright like Bumble
+    bgLight: '#FAFAFA',
     bgWhite: '#FFFFFF',
-    bgGray: '#F8F8F8',
+    bgGray: '#F7F7F7',
 
-    // Text
-    textPrimary: '#1A1A1A',
-    textSecondary: '#6B7280',
-    textMuted: '#9CA3AF',
+    // Text - strong contrast like Bumble
+    textPrimary: '#000000',
+    textSecondary: '#646464',
+    textMuted: '#999999',
 
     // Borders
-    border: '#E5E7EB',
-    borderLight: '#F3F4F6',
+    border: '#E8E8E8',
+    borderLight: '#F0F0F0',
   },
 
   fonts: {
