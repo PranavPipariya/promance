@@ -11,19 +11,19 @@ export const theme = {
     accent: '#FF6B6B',
     success: '#00D39F',
 
-    // Backgrounds - clean and bright like Bumble
-    bgLight: '#FAFAFA',
-    bgWhite: '#FFFFFF',
-    bgGray: '#F7F7F7',
+    // Backgrounds - Bumble's warm cream aesthetic
+    bgLight: '#FFF8E7',     // Warm cream background (Bumble's signature)
+    bgWhite: '#FFFEF9',     // Slightly warm white for cards
+    bgGray: '#FFF4D6',      // Lighter yellow tint
 
     // Text - strong contrast like Bumble
-    textPrimary: '#000000',
+    textPrimary: '#1A1A1A',  // Softer black
     textSecondary: '#646464',
     textMuted: '#999999',
 
     // Borders
-    border: '#E8E8E8',
-    borderLight: '#F0F0F0',
+    border: '#FFE8B8',       // Warm yellow border
+    borderLight: '#FFF0CC',
   },
 
   fonts: {

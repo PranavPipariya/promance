@@ -176,7 +176,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                   created_at: issue.created_at,
                   updated_at: issue.updated_at,
                   comments: issue.comments,
-                  labels: issue.labels.map((label) => label.name),
+                  labels: issue.labels
+                    .map((label) => (typeof label === 'string' ? label : label.name))
+                    .filter(Boolean),
                   assignee: issue.assignee?.login,
                 },
                 null,
