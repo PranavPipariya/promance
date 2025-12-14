@@ -49,6 +49,39 @@ export default function IssueCard({ issue, onSwipeLeft, onSwipeRight, style }: I
     return `${Math.floor(days / 30)}mo ago`;
   };
 
+  const formatDescription = (body: string | null) => {
+    if (!body) return 'No description provided.';
+
+    // Remove markdown code blocks
+    let cleaned = body.replace(/```[\s\S]*?```/g, '[code]');
+
+    // Remove inline code
+    cleaned = cleaned.replace(/`([^`]+)`/g, '$1');
+
+    // Remove markdown links but keep text
+    cleaned = cleaned.replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1');
+
+    // Remove headers
+    cleaned = cleaned.replace(/^#{1,6}\s+/gm, '');
+
+    // Remove bold/italic markers
+    cleaned = cleaned.replace(/\*\*([^\*]+)\*\*/g, '$1');
+    cleaned = cleaned.replace(/\*([^\*]+)\*/g, '$1');
+    cleaned = cleaned.replace(/__([^_]+)__/g, '$1');
+    cleaned = cleaned.replace(/_([^_]+)_/g, '$1');
+
+    // Remove extra whitespace
+    cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+    cleaned = cleaned.trim();
+
+    // Limit length
+    if (cleaned.length > 350) {
+      cleaned = cleaned.substring(0, 350) + '...';
+    }
+
+    return cleaned;
+  };
+
   return (
     <motion.div
       className="absolute w-full h-full"
@@ -111,23 +144,28 @@ export default function IssueCard({ issue, onSwipeLeft, onSwipeRight, style }: I
         {/* Body */}
         <div className="p-6 overflow-y-auto" style={{ height: 'calc(100% - 280px)' }}>
           <div className="mb-6">
-            <h3 className="text-sm font-semibold mb-3" style={{ color: theme.colors.textSecondary }}>
-              DESCRIPTION
+            <h3 className="text-sm font-semibold mb-3 uppercase tracking-wider" style={{ color: theme.colors.textSecondary }}>
+              Description
             </h3>
-            <p
-              className="text-base leading-relaxed whitespace-pre-wrap"
+            <div
+              className="text-base leading-loose space-y-2"
               style={{ color: theme.colors.textPrimary }}
             >
-              {issue.body?.substring(0, 400) || 'No description provided.'}
-              {issue.body && issue.body.length > 400 && '...'}
-            </p>
+              {formatDescription(issue.body).split('\n').map((paragraph, idx) => (
+                paragraph.trim() && (
+                  <p key={idx} className="mb-2">
+                    {paragraph}
+                  </p>
+                )
+              ))}
+            </div>
           </div>
 
           {/* Labels */}
           {issue.labels.length > 0 && (
             <div>
-              <h3 className="text-sm font-semibold mb-3" style={{ color: theme.colors.textSecondary }}>
-                TAGS
+              <h3 className="text-sm font-semibold mb-3 uppercase tracking-wider" style={{ color: theme.colors.textSecondary }}>
+                Tags
               </h3>
               <div className="flex flex-wrap gap-2">
                 {issue.labels.slice(0, 6).map((label) => (

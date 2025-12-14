@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export interface GitHubIssue {
   id: number;
@@ -40,49 +41,64 @@ interface IssueStore {
   reset: () => void;
 }
 
-export const useIssueStore = create<IssueStore>((set) => ({
-  issues: [],
-  currentIndex: 0,
-  likedIssues: [],
-  passedIssues: [],
-  isLoading: false,
-  showGoodFirstLove: false,
-  currentPage: 1,
-  hasMore: true,
+export const useIssueStore = create<IssueStore>()(
+  persist(
+    (set) => ({
+      issues: [],
+      currentIndex: 0,
+      likedIssues: [],
+      passedIssues: [],
+      isLoading: false,
+      showGoodFirstLove: false,
+      currentPage: 1,
+      hasMore: true,
 
-  setIssues: (issues) => set({ issues, currentIndex: 0, currentPage: 1 }),
+      setIssues: (issues) => set({ issues, currentIndex: 0, currentPage: 1 }),
 
-  addIssues: (issues) => set((state) => ({
-    issues: [...state.issues, ...issues],
-  })),
+      addIssues: (issues) => set((state) => ({
+        issues: [...state.issues, ...issues],
+      })),
 
-  likeIssue: (issue) => set((state) => ({
-    likedIssues: [...state.likedIssues, issue],
-  })),
+      likeIssue: (issue) => set((state) => ({
+        likedIssues: [...state.likedIssues, issue],
+      })),
 
-  passIssue: (issue) => set((state) => ({
-    passedIssues: [...state.passedIssues, issue],
-  })),
+      passIssue: (issue) => set((state) => ({
+        passedIssues: [...state.passedIssues, issue],
+      })),
 
-  nextIssue: () => set((state) => ({
-    currentIndex: state.currentIndex + 1,
-  })),
+      nextIssue: () => set((state) => ({
+        currentIndex: state.currentIndex + 1,
+      })),
 
-  setLoading: (loading) => set({ isLoading: loading }),
+      setLoading: (loading) => set({ isLoading: loading }),
 
-  toggleGoodFirstLove: () => set((state) => ({
-    showGoodFirstLove: !state.showGoodFirstLove,
-  })),
+      toggleGoodFirstLove: () => set((state) => ({
+        showGoodFirstLove: !state.showGoodFirstLove,
+      })),
 
-  setPage: (page) => set({ currentPage: page }),
+      setPage: (page) => set({ currentPage: page }),
 
-  setHasMore: (hasMore) => set({ hasMore }),
+      setHasMore: (hasMore) => set({ hasMore }),
 
-  reset: () => set({
-    currentIndex: 0,
-    likedIssues: [],
-    passedIssues: [],
-    currentPage: 1,
-    hasMore: true,
-  }),
-}));
+      reset: () => set({
+        currentIndex: 0,
+        likedIssues: [],
+        passedIssues: [],
+        currentPage: 1,
+        hasMore: true,
+      }),
+    }),
+    {
+      name: 'promance-issues',
+      partialize: (state) => ({
+        issues: state.issues,
+        currentIndex: state.currentIndex,
+        likedIssues: state.likedIssues,
+        passedIssues: state.passedIssues,
+        currentPage: state.currentPage,
+        hasMore: state.hasMore,
+      }),
+    }
+  )
+);
