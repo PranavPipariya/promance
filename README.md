@@ -1,18 +1,48 @@
-# 💝 PRomance
+# 💛 PRomance
 
-**Find your perfect GitHub issue match!**
+**Find your perfect GitHub issue match - Tinder for open source!**
 
-PRomance is a dating app-style interface for discovering and matching with GitHub issues. Swipe right on issues you want to work on, swipe left to pass. Features the **GoodFirstLove** filter for beginner-friendly issues.
+PRomance is a **Bumble-style dating app** for discovering GitHub issues. Sign in with GitHub, create your developer profile, and swipe through issues matched to your skills. It's like Tinder, but for finding your next open-source contribution!
 
 ## ✨ Features
 
-- **🎯 Tinder-Style Swipe Interface**: Intuitive card-based UI for browsing GitHub issues
-- **💝 GoodFirstLove Filter**: Dedicated filter for `good-first-issue` labeled issues
-- **🎨 Language Filtering**: Filter issues by programming language (JavaScript, TypeScript, Python, Rust, Go, Java)
-- **📊 Match Tracking**: Keep track of issues you've liked and want to work on
-- **🎭 Beautiful UI**: Gradient backgrounds, smooth animations with Framer Motion
-- **🤖 MCP Integration**: Claude AI integration for natural language issue discovery
-- **📱 Responsive Design**: Works great on desktop and mobile
+### 🎨 Bumble-Inspired UI
+- **Signature yellow color scheme** (#FFC629)
+- **Three-screen layout**: Discover, Matches, Profile
+- **Bottom navigation** like dating apps
+- **Professional typography** and smooth animations
+
+### 🔐 GitHub OAuth Authentication
+- Sign in with your GitHub account
+- Secure session management
+- Access your GitHub data
+
+### 📋 Smart Onboarding
+- **4-step questionnaire**:
+  1. Select your programming languages
+  2. Choose experience level (Beginner/Intermediate/Advanced)
+  3. Pick your interests (Web Dev, ML, DevOps, etc.)
+  4. Select issue types and daily goal
+
+### 🎯 Intelligent Matching
+- **Smart algorithm** scores issues 0-100 based on:
+  - Language match (40 points)
+  - Experience level (30 points)
+  - Issue type (20 points)
+  - Interests (10 points)
+- Issues sorted by best match first
+- **GoodFirstLove** highlighting for beginners
+
+### 💖 Dating App Experience
+- **Swipe interface** with Framer Motion animations
+- Beautiful gradient cards with proper fonts
+- Swipe right to match, left to pass
+- View all your matches
+- Track your stats
+
+### 🤖 MCP Integration
+- Claude AI integration for natural language issue discovery
+- "Claude, find me 10 TypeScript issues for beginners"
 
 ## 🎥 Demo
 
@@ -20,40 +50,30 @@ PRomance is a dating app-style interface for discovering and matching with GitHu
 
 ## 🚀 Getting Started
 
-### Prerequisites
+See [SETUP.md](./SETUP.md) for detailed setup instructions.
 
-- Node.js 18+ and pnpm
-- GitHub Personal Access Token ([get one here](https://github.com/settings/tokens))
+### Quick Start
 
-### Installation
-
-1. Clone the repository:
+1. **Create GitHub OAuth App** at https://github.com/settings/developers
+2. **Get a GitHub token** at https://github.com/settings/tokens
+3. **Clone and setup**:
 ```bash
-git clone https://github.com/yourusername/promance.git
+git clone https://github.com/PranavPipariya/promance.git
 cd promance
-```
-
-2. Install dependencies:
-```bash
 pnpm install
-```
-
-3. Set up environment variables:
-```bash
 cp .env.example .env.local
-```
-
-Edit `.env.local` and add your GitHub token:
-```
-GITHUB_TOKEN=your_github_token_here
-```
-
-4. Run the development server:
-```bash
+# Edit .env.local with your credentials
 pnpm dev
 ```
+4. **Open** http://localhost:3000
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
+### The Flow
+
+1. **Login** → GitHub OAuth
+2. **Onboarding** → 4-step profile creation
+3. **Discover** → Swipe on matched issues
+4. **Matches** → View your liked issues
+5. **Profile** → See stats and preferences
 
 ## 🤖 MCP Server Setup
 
