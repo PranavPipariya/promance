@@ -86,10 +86,17 @@ export default function DiscoverPage() {
   };
 
   useEffect(() => {
-    if (user && user.onboardingComplete) {
+    if (user && user.onboardingComplete && issues.length === 0) {
       fetchIssues();
     }
   }, [user]);
+
+  // Fetch fresh issues if we have old data
+  useEffect(() => {
+    if (user && user.onboardingComplete && currentIndex >= issues.length && issues.length > 0) {
+      fetchIssues();
+    }
+  }, [user, currentIndex, issues.length]);
 
   // Auto-load more issues when getting close to the end
   useEffect(() => {
@@ -115,7 +122,7 @@ export default function DiscoverPage() {
     }
   };
 
-  const noMoreIssues = currentIndex >= issues.length;
+  const noMoreIssues = currentIndex >= issues.length && !isLoading && issues.length > 0;
 
   if (status === 'loading' || !user) {
     return (
